@@ -18,7 +18,7 @@
 
 | Skill | Description | Example Trigger |
 |:------|:------------|:----------------|
-| `sci-search` | Search arXiv + PubMed simultaneously with JCR tier & impact factor data | *"Find high-IF papers on perovskite solar cells"* |
+| `sci-search` | Search arXiv + PubMed + **Web of Science** simultaneously with JCR tier & impact factor data | *"Find high-IF papers on perovskite solar cells"* |
 | `sci-extract` | Extract core insights, experimental parameters, and conclusions from PDFs | *"Analyze the key findings of paper.pdf"* |
 | `sci-figure` | Auto-detect and crop figures from PDFs at 600 DPI, with subfigure splitting | *"Extract Figure 3c from this paper"* |
 | `sci-review` | Draft literature reviews and professional peer-review rebuttals (NeurIPS/ICLR standard) | *"Write a literature review on GNNs for drug discovery"* |
@@ -56,6 +56,10 @@ Set environment variables as needed:
 export ZOTERO_API_KEY=your_personal_api_key
 export ZOTERO_USER_ID=your_numeric_user_id
 
+# For sci-search — Web of Science (optional but recommended)
+# Apply for a free key at: https://developer.clarivate.com/apis/wos-starter
+export WOS_API_KEY=your_wos_api_key
+
 # For sci-ppt PDF workflow (choose one)
 export ANTHROPIC_API_KEY=sk-ant-...    # Claude API
 export MOONSHOT_API_KEY=sk-...         # Moonshot API
@@ -65,6 +69,7 @@ export TESSERACT_CMD="C:\Program Files\Tesseract-OCR\tesseract.exe"
 ```
 
 > Get your Zotero API key at: https://www.zotero.org/settings/keys
+> Get your Web of Science API key at: https://developer.clarivate.com/apis/wos-starter
 
 ### 💬 Usage Examples
 
@@ -133,7 +138,7 @@ Contributions welcome! Priority areas:
 
 | 技能 | 功能描述 | 触发词示例 |
 |:-----|:---------|:----------|
-| `sci-search` | arXiv + PubMed 双源检索，自动附加 JCR 分区和影响因子 | *"搜索钙钛矿太阳能电池最新论文"* |
+| `sci-search` | arXiv + PubMed + **Web of Science** 三源检索，自动附加 JCR 分区和影响因子 | *"搜索钙钛矿太阳能电池最新论文"* |
 | `sci-extract` | 从 PDF 提取核心发现、实验参数、数值对比和主要结论 | *"分析 paper.pdf 的核心结论"* |
 | `sci-figure` | 自动检测并裁剪论文图片（600 DPI），支持复合图拆分为子图 | *"提取论文第3张图的子图c"* |
 | `sci-review` | 文献综述写作 + 专业审稿回复，对标 NeurIPS/ICLR 标准 | *"帮我写图神经网络在药物发现中的综述"* |
@@ -171,6 +176,10 @@ pip install -r requirements.txt
 export ZOTERO_API_KEY=你的个人API密钥
 export ZOTERO_USER_ID=你的Zotero数字用户ID
 
+# sci-search Web of Science 检索（可选，强烈推荐）
+# 免费申请地址：https://developer.clarivate.com/apis/wos-starter
+export WOS_API_KEY=你的WoS_API密钥
+
 # sci-ppt 论文工作流（选择其一）
 export ANTHROPIC_API_KEY=sk-ant-...    # Claude API
 export MOONSHOT_API_KEY=sk-...         # Moonshot API（国内推荐）
@@ -181,6 +190,7 @@ export TESSERACT_CMD="C:\Program Files\Tesseract-OCR\tesseract.exe"
 ```
 
 > Zotero API Key 获取地址：https://www.zotero.org/settings/keys
+> Web of Science API Key 申请地址：https://developer.clarivate.com/apis/wos-starter
 
 ### 💬 使用示例
 

@@ -301,6 +301,83 @@ class ArxivFetcher:
             print(f"arXiv error: {e}")
             return []
 
+class WoSFetcher:
+    """Web of Science Starter API fetcher.
+
+    Requires WOS_API_KEY environment variable.
+    Apply for a free API key at: https://developer.clarivate.com/apis/wos-starter
+    Authentication: X-ApiKey header (no subscription required for Starter tier).
+    """
+    API_URL = "https://api.clarivate.com/apis/wos-starter/v1/documents"
+
+    def __init__(self):
+        self.api_key = os.environ.get("WOS_API_KEY", "")
+
+    def is_available(self) -> bool:
+        return bool(self.api_key)
+
+    def search(self, query: str, max_results: int = 5) -> List[Dict]:
+        if not self.api_key:
+            return []
+
+        params = {
+            "q": query,
+            "db": "WOS",
+            "limit": min(max_results, 10),
+            "page": 1,
+        }
+        url = f"{self.API_URL}?{urllib.parse.urlencode(params)}"
+        req = urllib.request.Request(url, headers={
+            "X-ApiKey": self.api_key,
+            "Accept": "application/json",
+        })
+        try:
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+
+            papers = []
+            for hit in data.get("hits", []):
+                # Extract authors
+                authors_raw = hit.get("authors", {})
+                if isinstance(authors_raw, dict):
+                    authors = [a.get("displayName", "") for a in authors_raw.get("authors", [])]
+                else:
+                    authors = []
+
+                # Extract source/journal
+                source = hit.get("source", {})
+                journal = source.get("sourceTitle", "") if isinstance(source, dict) else ""
+                year = ""
+                if isinstance(source, dict):
+                    pub_year = source.get("publishYear") or source.get("publishDate", "")
+                    year = str(pub_year)[:4] if pub_year else ""
+
+                # Extract DOI
+                identifiers = hit.get("identifiers", {})
+                doi = ""
+                if isinstance(identifiers, dict):
+                    doi = identifiers.get("doi", "")
+
+                uid = hit.get("uid", "")
+                url_link = f"https://www.webofscience.com/wos/woscc/full-record/{uid}" if uid else ""
+
+                paper = {
+                    "source": "wos",
+                    "title": hit.get("title", "Unknown"),
+                    "authors": authors,
+                    "year": year,
+                    "journal": journal,
+                    "url": url_link,
+                    "doi": doi,
+                    "times_cited": hit.get("timesCited", ""),
+                }
+                papers.append(paper)
+            return papers
+        except Exception as e:
+            print(f"Web of Science error: {e}")
+            return []
+
+
 class PubmedFetcher:
     ESEARCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
     ESUMMARY_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
@@ -342,10 +419,14 @@ def format_markdown(paper: Dict, index: int) -> str:
         if metrics.get('is_nature_science_advmat'): status_icon = " **🚨重点标注🚨**"
         elif metrics.get('is_top_journal'): status_icon = " **⭐高影响力⭐**"
 
+    source_label = paper['source'].upper()
+    if paper['source'] == 'wos':
+        source_label = "Web of Science"
+
     lines = [
         f"### {index}. {paper['title']}{status_icon}",
         f"- **Authors:** {', '.join(paper['authors'][:3])}" + (" et al." if len(paper['authors']) > 3 else ""),
-        f"- **Year:** {paper['year']} | **Source:** {paper['source'].upper()}",
+        f"- **Year:** {paper['year']} | **Source:** {source_label}",
     ]
 
     if paper.get('journal'):
@@ -353,6 +434,9 @@ def format_markdown(paper: Dict, index: int) -> str:
 
     if metrics:
         lines.append(f"- **Metrics:** JCR {metrics.get('jcr_partition', 'N/A')} | IF {metrics.get('impact_factor', 'N/A')} | {metrics.get('chinese_partition', 'N/A')}")
+
+    if paper.get('times_cited') != "" and paper.get('times_cited') is not None:
+        lines.append(f"- **Times Cited:** {paper['times_cited']}")
 
     lines.append(f"- **Link:** {paper['url']}")
     if paper.get('abstract'):
@@ -366,13 +450,34 @@ def main():
     parser.add_argument('query', help='Search query')
     parser.add_argument('--limit', type=int, default=5)
     parser.add_argument('--output', help='Output to markdown file')
+    parser.add_argument('--source', choices=['all', 'arxiv', 'pubmed', 'wos'], default='all',
+                        help='Search source (default: all available)')
     args = parser.parse_args()
 
     results = []
+    wos = WoSFetcher()
+
     print(f"Searching for: {args.query}...")
-    results.extend(ArxivFetcher().search(args.query, args.limit))
-    time.sleep(RATE_LIMIT_DELAY)
-    results.extend(PubmedFetcher().search(args.query, args.limit))
+
+    if args.source in ('all', 'arxiv'):
+        print("  → arXiv...")
+        results.extend(ArxivFetcher().search(args.query, args.limit))
+        time.sleep(RATE_LIMIT_DELAY)
+
+    if args.source in ('all', 'pubmed'):
+        print("  → PubMed...")
+        results.extend(PubmedFetcher().search(args.query, args.limit))
+        time.sleep(RATE_LIMIT_DELAY)
+
+    if args.source in ('all', 'wos'):
+        if wos.is_available():
+            print("  → Web of Science...")
+            results.extend(wos.search(args.query, args.limit))
+        elif args.source == 'wos':
+            print("  ✗ WOS_API_KEY not set. Get a free key at: https://developer.clarivate.com/apis/wos-starter")
+            return
+        else:
+            print("  ⚠ Web of Science skipped (WOS_API_KEY not set)")
 
     if not results:
         print("No results found.")

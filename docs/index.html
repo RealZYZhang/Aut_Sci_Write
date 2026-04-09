@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aut_Sci_Write — Autonomous Scientific Writer</title>
+  <style>
+    :root {
+      --primary: #1E3A5F;
+      --gold: #E8B339;
+      --red: #BF0000;
+      --bg: #F4F7FB;
+      --card-bg: #FFFFFF;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #2d5a8e 100%);
+      color: white;
+      padding: 80px 24px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--gold);
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero p {
+      font-size: 1.15rem;
+      opacity: 0.85;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .badges {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .badge {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: white;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .badge:hover { background: rgba(255,255,255,0.22); }
+    .badge.gold { background: var(--gold); color: var(--primary); border-color: var(--gold); }
+    .cta-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+    .btn-primary { background: var(--gold); color: var(--primary); }
+    .btn-outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.5); }
+
+    /* ── Layout ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Section ── */
+    section { padding: 64px 24px; }
+    section:nth-child(even) { background: white; }
+    .section-title {
+      text-align: center;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 48px;
+      font-size: 1rem;
+    }
+
+    /* ── Skills Grid ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--gold);
+    }
+    .skill-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(30,58,95,0.12);
+    }
+    .skill-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    .skill-name {
+      font-family: "Courier New", monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: #EEF3FA;
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    .skill-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .skill-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+      line-height: 1.55;
+    }
+    .trigger-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .trigger {
+      background: #F0F4FF;
+      color: var(--primary);
+      font-size: 0.78rem;
+      padding: 3px 9px;
+      border-radius: 12px;
+      border: 1px solid #D6E4F0;
+    }
+
+    /* ── Workflow ── */
+    .workflow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .wf-step {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      text-align: center;
+      min-width: 130px;
+      flex: 1;
+      max-width: 160px;
+    }
+    .wf-step .icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .wf-step .label { font-size: 0.82rem; font-weight: 700; color: var(--primary); }
+    .wf-step .sub { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+    .wf-arrow {
+      font-size: 1.4rem;
+      color: var(--gold);
+      padding: 0 6px;
+      font-weight: 900;
+    }
+
+    /* ── Install ── */
+    .install-block {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .code-block {
+      background: #0d1117;
+      color: #e6edf3;
+      border-radius: 10px;
+      padding: 20px 24px;
+      font-family: "Courier New", monospace;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .code-block .comment { color: #8b949e; }
+    .code-block .cmd { color: #79c0ff; }
+    .code-block .str { color: #a5d6ff; }
+    .step-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--primary);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.88rem;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .wf-arrow { display: none; }
+      .wf-step { max-width: 100%; }
+      .workflow { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>Aut_Sci_<span>Write</span></h1>
+  <p>面向科研全流程的 Claude Code Skills 插件集<br>从文献检索到 PPT 生成，一套技能覆盖全链路</p>
+  <div class="badges">
+    <span class="badge gold">Claude Code Skills</span>
+    <span class="badge">Python 3.10+</span>
+    <span class="badge">MIT License</span>
+    <span class="badge">6 Skills</span>
+  </div>
+  <div class="cta-group">
+    <a href="https://github.com/ShZhao27208/Aut_Sci_Write" class="btn btn-primary">GitHub 仓库</a>
+    <a href="https://github.com/ShZhao27208/Aut_Sci_Write#quick-start" class="btn btn-outline">快速开始</a>
+  </div>
+</div>
+
+<!-- Workflow -->
+<section>
+  <div class="container">
+    <h2 class="section-title">科研写作全流程</h2>
+    <p class="section-sub">六个技能覆盖从文献发现到成果输出的完整链路</p>
+    <div class="workflow">
+      <div class="wf-step">
+        <div class="icon">🔍</div>
+        <div class="label">文献检索</div>
+        <div class="sub">sci-search</div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step">
+        <div class="icon">📄</div>
+        <div class="label">论文解析</div>
+        <div class="sub">sci-extract</div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step">
+        <div class="icon">🖼️</div>
+        <div class="label">图表提取</div>
+        <div class="sub">sci-figure</div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step">
+        <div class="icon">✍️</div>
+        <div class="label">综述写作</div>
+        <div class="sub">sci-review</div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step">
+        <div class="icon">📚</div>
+        <div class="label">文献管理</div>
+        <div class="sub">sci-zotero</div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step">
+        <div class="icon">📊</div>
+        <div class="label">PPT 生成</div>
+        <div class="sub">sci-ppt</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section>
+  <div class="container">
+    <h2 class="section-title">技能详情</h2>
+    <p class="section-sub">每个技能独立可用，也可组合成完整工作流</p>
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <div class="skill-icon">🔍</div>
+        <div class="skill-name">sci-search</div>
+        <div class="skill-title">文献检索与期刊指标</div>
+        <div class="skill-desc">同时搜索 arXiv 和 PubMed，自动附加 JCR 分区、影响因子，高亮 Nature/Science 等顶刊。</div>
+        <div class="trigger-list">
+          <span class="trigger">搜索文献</span>
+          <span class="trigger">查文献</span>
+          <span class="trigger">影响因子</span>
+          <span class="trigger">find papers</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">📄</div>
+        <div class="skill-name">sci-extract</div>
+        <div class="skill-title">论文核心内容提取</div>
+        <div class="skill-desc">从 PDF 中提取研究问题、方法、关键结论、实验参数和数值对比，超越简单摘要。</div>
+        <div class="trigger-list">
+          <span class="trigger">分析论文</span>
+          <span class="trigger">提取结论</span>
+          <span class="trigger">论文要点</span>
+          <span class="trigger">analyze paper</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">🖼️</div>
+        <div class="skill-name">sci-figure</div>
+        <div class="skill-title">论文图表智能提取</div>
+        <div class="skill-desc">自动检测 PDF 中的图表位置，高精度裁剪（600 DPI），支持复合图拆分为独立子图。</div>
+        <div class="trigger-list">
+          <span class="trigger">提取图片</span>
+          <span class="trigger">截取子图</span>
+          <span class="trigger">extract figure</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">✍️</div>
+        <div class="skill-name">sci-review</div>
+        <div class="skill-title">综述写作与审稿回复</div>
+        <div class="skill-desc">基于 4 阶段系统综述结构，辅助撰写文献综述；专业审稿回复模板，对标 NeurIPS/ICLR 标准。</div>
+        <div class="trigger-list">
+          <span class="trigger">文献综述</span>
+          <span class="trigger">审稿回复</span>
+          <span class="trigger">论文润色</span>
+          <span class="trigger">rebuttal</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">📚</div>
+        <div class="skill-name">sci-zotero</div>
+        <div class="skill-title">Zotero 文献库集成</div>
+        <div class="skill-desc">同步 Zotero 远程文献库，支持通过 DOI/ISBN/PMID 添加引用，自动获取开放获取 PDF。</div>
+        <div class="trigger-list">
+          <span class="trigger">同步文献</span>
+          <span class="trigger">Zotero</span>
+          <span class="trigger">add citation</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">📊</div>
+        <div class="skill-name">sci-ppt</div>
+        <div class="skill-title">学术 PPT 自动生成</div>
+        <div class="skill-desc">从论文 PDF 或结构化文本一键生成专业学术 PPT，支持 LaTeX 公式渲染、图片嵌入、中英双语布局。</div>
+        <div class="trigger-list">
+          <span class="trigger">生成PPT</span>
+          <span class="trigger">组会汇报</span>
+          <span class="trigger">答辩PPT</span>
+          <span class="trigger">论文转PPT</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Install -->
+<section>
+  <div class="container">
+    <h2 class="section-title">快速安装</h2>
+    <p class="section-sub">三步完成配置，立即开始使用</p>
+    <div class="install-block">
+
+      <div class="step-label">Step 1 — 克隆仓库</div>
+      <div class="code-block">
+        <span class="cmd">git clone</span> <span class="str">https://github.com/ShZhao27208/Aut_Sci_Write.git</span><br>
+        <span class="cmd">cd</span> Aut_Sci_Write<br>
+        <span class="cmd">pip install</span> -r requirements.txt
+      </div>
+
+      <div class="step-label">Step 2 — 配置环境变量</div>
+      <div class="code-block">
+        <span class="comment"># Zotero 集成（可选）</span><br>
+        <span class="cmd">export</span> ZOTERO_API_KEY=<span class="str">your_api_key</span><br>
+        <span class="cmd">export</span> ZOTERO_USER_ID=<span class="str">your_user_id</span><br><br>
+        <span class="comment"># PPT 生成（选择其一）</span><br>
+        <span class="cmd">export</span> ANTHROPIC_API_KEY=<span class="str">sk-ant-...</span><br>
+        <span class="cmd">export</span> MOONSHOT_API_KEY=<span class="str">sk-...</span>
+      </div>
+
+      <div class="step-label">Step 3 — 在 Claude Code 中注册</div>
+      <div class="code-block">
+        <span class="comment"># 在 Claude Code 会话中执行：</span><br>
+        /oh-my-claudecode:skill setup
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>
+    Built for the scientific community ·
+    <a href="https://github.com/ShZhao27208/Aut_Sci_Write">GitHub</a> ·
+    <a href="https://github.com/ShZhao27208/Aut_Sci_Write/blob/main/LICENSE">MIT License</a>
+  </p>
+  <p style="margin-top:8px; font-size:0.8rem; opacity:0.6;">Powered by Claude Code · oh-my-claudecode</p>
+</footer>
+
+</body>
+</html>

@@ -1,6 +1,21 @@
 ---
 name: sci-review
 description: Specialized workflows for drafting, refining, and responding to academic literature reviews and peer review feedback. Triggers on requests like "draft literature review on...", "respond to reviewers", "refine paper rebuttal", or "summarize research gaps". Based on the 4-stage systematic literature review structure and professional rebuttal guides for top-tier CS venues (NeurIPS, ICLR, ICML, etc.).
+triggers:
+  - 文献综述
+  - 综述写作
+  - 写综述
+  - 审稿回复
+  - 回复审稿人
+  - rebuttal
+  - 论文润色
+  - 摘要润色
+  - 写作优化
+  - 研究空白
+  - literature review
+  - respond to reviewers
+  - refine abstract
+  - paper writing
 ---
 
 # Scientific Review & Rebuttal Skill

@@ -233,14 +233,15 @@ class BaseTemplate:
             else:
                 n_color, t_color, t_bold = "3D6A99", self.COLOR_NAV_INACTIVE, False
 
-            # 编号（item_h 上方 30%）
+            # 编号：始终显示全局章节序号（visible_offset + i + 1 = 全局位置）
+            global_num = visible_offset + i + 1
             num_h = item_h * 0.30
             self.add_textbox(
                 PAD_X,
                 top + item_h * 0.03,
                 self.NAV_W - PAD_X - 0.04,
                 num_h,
-                text=f"{visible_offset + i + 1:02d}",
+                text=f"{global_num:02d}",
                 font_name=self.FONT_EN,
                 font_size=num_pt,
                 bold=is_cur,
@@ -284,6 +285,26 @@ class BaseTemplate:
             color=self.COLOR_GOLD,
             width_pt=0.5,
         )
+
+        # 当章节数超过窗口时，显示省略指示（如 "3 / 7"）
+        if n > WINDOW:
+            try:
+                cur_idx = self.sections.index(self.current_section)
+            except ValueError:
+                cur_idx = 0
+            indicator = f"{cur_idx + 1} / {n}"
+            self.add_textbox(
+                0.05,
+                self.H - BOTTOM_PAD + 0.05,
+                self.NAV_W - 0.1,
+                0.22,
+                text=indicator,
+                font_name=self.FONT_EN,
+                font_size=8,
+                bold=False,
+                color="5A8AB0",
+                align=PP_ALIGN.CENTER,
+            )
 
     def draw_header_bar(self, part_num="", title=""):
         cw = self.W - self.CONTENT_X

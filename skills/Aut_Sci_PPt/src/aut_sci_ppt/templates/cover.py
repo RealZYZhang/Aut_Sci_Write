@@ -45,8 +45,8 @@ class CoverTemplate(BaseTemplate):
         INFO_BOT  = 6.55
         INFO_H    = INFO_BOT - INFO_TOP
         n         = len(fields)
-        # 均匀分布：每项高度 = 总高 / 项数
-        LINE_H    = INFO_H / n
+        # 均匀分布，但单行高度不超过 0.85 英寸，避免字段少时间距过大
+        LINE_H    = min(INFO_H / n, 0.85)
 
         for i, (label, value) in enumerate(fields):
             row_top = INFO_TOP + i * LINE_H

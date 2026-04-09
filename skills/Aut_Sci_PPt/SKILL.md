@@ -1,13 +1,22 @@
 ---
 name: sci-ppt
-description: Use when converting academic paper PDFs or structured text into professional, high-standard PowerPoint (PPTX) presentations for defense or seminars.
+description: Generate professional academic PowerPoint (PPTX) presentations from paper PDFs, structured outlines, or plain text. Use for thesis defense, seminar reports, literature presentations, and graduate school applications. Supports automatic figure extraction, LaTeX formula rendering, and bilingual (Chinese/English) layouts.
 triggers:
   - 生成PPT
   - 做PPT
+  - 制作PPT
   - 演示文稿
   - pptx
   - 汇报
   - 论文转PPT
+  - 答辩PPT
+  - 开题报告
+  - 组会汇报
+  - 推免汇报
+  - 学术汇报
+  - make presentation
+  - create slides
+  - paper to ppt
 ---
 
 # Aut_Sci_PPt (Academic Auto-PPT Agent)

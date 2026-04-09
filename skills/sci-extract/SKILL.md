@@ -2,15 +2,20 @@
 name: sci-extract
 description: Professional extraction of core insights, figures, and metadata from scientific PDF papers. Triggers on requests to analyze, extract, or summarize scientific papers.
 triggers:
-  - 分析数据
-  - XRD
-  - XPS
-  - Raman
-  - FTIR
-  - 表征
   - 提取论文
+  - 分析论文
+  - 论文摘要
+  - 核心发现
+  - 提取结论
+  - 论文要点
+  - 分析PDF
+  - 提取数据
+  - 表征分析
   - extract insights
   - analyze paper
+  - summarize paper
+  - extract figures
+  - core findings
 ---
 
 # Scientific Extraction (sci-extract)

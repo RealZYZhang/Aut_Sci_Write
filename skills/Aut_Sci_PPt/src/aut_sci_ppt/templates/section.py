@@ -17,8 +17,8 @@ class SectionTemplate(BaseTemplate):
         self.add_rect(0, 0, 1.2, H, fill_color=self.COLOR_PRIMARY)
         # 左侧顶部金色块
         self.add_rect(0, 0, 1.2, 0.8, fill_color=self.COLOR_GOLD)
-        # 右侧主背景（淡蓝）
-        self.add_rect(1.2, 0, W - 1.2, H, fill_color="EEF3FA")
+        # 右侧主背景（深蓝渐变感，更有视觉冲击力）
+        self.add_rect(1.2, 0, W - 1.2, H, fill_color="D6E4F0")
         # 顶部深蓝细条
         self.add_rect(1.2, 0, W - 1.2, 0.07, fill_color=self.COLOR_PRIMARY)
         # 底部深蓝细条

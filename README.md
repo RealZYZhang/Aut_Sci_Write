@@ -1,10 +1,22 @@
-# Aut_Sci_Write: Autonomous Scientific Writer
+<div align="center">
+
+<img src="docs/avatar.svg" width="120" height="120" alt="瞾 — Shuo Zhao pixel avatar"/>
+
+# Aut_Sci_Write
+
+**Autonomous Scientific Writer**
+
+*A modular Claude Code Skills suite for the full academic research lifecycle*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-Skills-blueviolet)](https://claude.ai/code)
-[![oh-my-claudecode](https://img.shields.io/badge/oh--my--claudecode-compatible-green)](https://github.com/omc-dev/oh-my-claudecode)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-Skills-blueviolet?logo=anthropic)](https://claude.ai/code)
+[![oh-my-claudecode](https://img.shields.io/badge/oh--my--claudecode-compatible-22c55e)](https://github.com/omc-dev/oh-my-claudecode)
 [![Stars](https://img.shields.io/github/stars/ShZhao27208/Aut_Sci_Write?style=social)](https://github.com/ShZhao27208/Aut_Sci_Write)
+
+[🌐 Live Demo](https://shzhao27208.github.io/Aut_Sci_Write/) · [📦 Install](#-installation) · [📖 中文说明](#中文说明)
+
+</div>
 
 ---
 
@@ -13,6 +25,7 @@
 **Aut_Sci_Write** is a modular collection of **Claude Code Skills** that automates the entire academic research and writing lifecycle — from literature discovery and deep PDF analysis to figure extraction, review writing, and professional PPT generation.
 
 > Install once, use anywhere. Just talk to Claude Code naturally — the skills activate automatically based on what you say.
+
 
 ### ✨ What It Does
 

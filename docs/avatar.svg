@@ -1,0 +1,85 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" width="120" height="120">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0A1628"/>
+      <stop offset="100%" style="stop-color:#132040"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="120" height="120" fill="url(#bg-grad)" rx="16"/>
+
+  <!-- Border frame -->
+  <rect x="3" y="3" width="114" height="114" fill="none" stroke="#E8B339" stroke-width="1.5" rx="13" opacity="0.5"/>
+
+  <!-- Corner accents -->
+  <rect x="3" y="3" width="8" height="8" fill="#E8B339" rx="2" opacity="0.8"/>
+  <rect x="109" y="3" width="8" height="8" fill="#E8B339" rx="2" opacity="0.8"/>
+  <rect x="3" y="109" width="8" height="8" fill="#E8B339" rx="2" opacity="0.8"/>
+  <rect x="109" y="109" width="8" height="8" fill="#E8B339" rx="2" opacity="0.8"/>
+
+  <!-- 瞾 字像素点阵 (4px per pixel, centered) -->
+  <!-- 左侧"目"部 (x:14-46, y:18-86) -->
+  <!-- 目 顶横 -->
+  <rect x="14" y="18" width="32" height="4" fill="#E8B339" filter="url(#glow)" opacity="0.95"/>
+  <!-- 目 左竖 -->
+  <rect x="14" y="22" width="4" height="60" fill="#E8B339" opacity="0.9"/>
+  <!-- 目 右竖 -->
+  <rect x="42" y="22" width="4" height="60" fill="#E8B339" opacity="0.9"/>
+  <!-- 目 中横1 -->
+  <rect x="18" y="34" width="24" height="3" fill="#C49520" opacity="0.7"/>
+  <!-- 目 中横2 -->
+  <rect x="18" y="48" width="24" height="3" fill="#C49520" opacity="0.7"/>
+  <!-- 目 中横3 -->
+  <rect x="18" y="62" width="24" height="3" fill="#C49520" opacity="0.7"/>
+  <!-- 目 底横 -->
+  <rect x="14" y="82" width="32" height="4" fill="#E8B339" filter="url(#glow)" opacity="0.95"/>
+
+  <!-- 中间分隔竖线 -->
+  <rect x="50" y="18" width="2" height="68" fill="#E8B339" opacity="0.2"/>
+
+  <!-- 右上"隹"部 (x:56-106, y:18-52) -->
+  <!-- 隹 顶点 -->
+  <rect x="76" y="18" width="4" height="4" fill="#E8B339" filter="url(#glow)" opacity="0.95"/>
+  <!-- 隹 竖 -->
+  <rect x="76" y="22" width="4" height="30" fill="#E8B339" opacity="0.9"/>
+  <!-- 隹 横1 -->
+  <rect x="56" y="26" width="44" height="3" fill="#C49520" opacity="0.7"/>
+  <!-- 隹 横2 -->
+  <rect x="56" y="34" width="44" height="3" fill="#C49520" opacity="0.7"/>
+  <!-- 隹 横3 -->
+  <rect x="56" y="42" width="44" height="3" fill="#C49520" opacity="0.7"/>
+  <!-- 隹 底横 -->
+  <rect x="56" y="50" width="50" height="4" fill="#E8B339" filter="url(#glow)" opacity="0.95"/>
+  <!-- 隹 左撇 -->
+  <rect x="56" y="22" width="4" height="4" fill="#E8B339" opacity="0.8"/>
+  <rect x="60" y="18" width="12" height="4" fill="#E8B339" opacity="0.7"/>
+
+  <!-- 右下"隹"部 (x:56-106, y:54-88) -->
+  <!-- 隹 顶点 -->
+  <rect x="76" y="54" width="4" height="4" fill="#E8B339" filter="url(#glow)" opacity="0.95"/>
+  <!-- 隹 竖 -->
+  <rect x="76" y="58" width="4" height="28" fill="#E8B339" opacity="0.9"/>
+  <!-- 隹 横1 -->
+  <rect x="56" y="62" width="44" height="3" fill="#C49520" opacity="0.7"/>
+  <!-- 隹 横2 -->
+  <rect x="56" y="70" width="44" height="3" fill="#C49520" opacity="0.7"/>
+  <!-- 隹 横3 -->
+  <rect x="56" y="78" width="44" height="3" fill="#C49520" opacity="0.7"/>
+  <!-- 隹 底横 -->
+  <rect x="56" y="86" width="50" height="4" fill="#E8B339" filter="url(#glow)" opacity="0.95"/>
+  <!-- 隹 左撇 -->
+  <rect x="56" y="58" width="4" height="4" fill="#E8B339" opacity="0.8"/>
+  <rect x="60" y="54" width="12" height="4" fill="#E8B339" opacity="0.7"/>
+
+  <!-- 扫描线装饰 -->
+  <rect x="8" y="98" width="104" height="1" fill="#E8B339" opacity="0.2"/>
+  <rect x="8" y="102" width="104" height="1" fill="#E8B339" opacity="0.1"/>
+
+  <!-- 底部文字 SHUO ZHAO -->
+  <text x="60" y="113" font-family="'Courier New', monospace" font-size="7" fill="#E8B339" opacity="0.6" text-anchor="middle" letter-spacing="2">SHUO · ZHAO</text>
+</svg>

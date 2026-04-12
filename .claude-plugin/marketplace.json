@@ -15,7 +15,7 @@
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/Aut_Sci_PPt",
+        "./skills/sci-ppt",
         "./skills/sci-extract",
         "./skills/sci-figure",
         "./skills/sci-review",

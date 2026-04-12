@@ -43,13 +43,13 @@
 **One-line install** (recommended — installs all 6 skills globally to Claude Code):
 
 ```bash
-npx skills add ShZhao27208/Aut_Sci_Write -9 -y
+npx skills add ShZhao27208/Aut_Sci_Write
 ```
 
 **Update to latest version:**
 
 ```bash
-npx skills add ShZhao27208/Aut_Sci_Write -9 -y
+npx skills add ShZhao27208/Aut_Sci_Write
 ```
 
 **Manual install** (clone and install Python dependencies):
@@ -163,13 +163,13 @@ Contributions welcome! Priority areas:
 **一行命令安装**（推荐，将全部 6 个技能全局安装到 Claude Code）：
 
 ```bash
-npx skills add ShZhao27208/Aut_Sci_Write -9 -y
+npx skills add ShZhao27208/Aut_Sci_Write
 ```
 
 **更新到最新版本**（重新运行安装命令即可覆盖更新）：
 
 ```bash
-npx skills add ShZhao27208/Aut_Sci_Write -9 -y
+npx skills add ShZhao27208/Aut_Sci_Write
 ```
 
 **手动安装**（克隆仓库并安装 Python 依赖）：

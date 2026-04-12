@@ -5,6 +5,6 @@
   "author": "Antigravity",
   "capabilities": ["search", "formatting"],
   "scripts": {
-    "search": "python ../../scripts/sci_search.py"
+    "search": "python ./sci_search.py"
   }
 }

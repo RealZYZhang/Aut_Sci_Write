@@ -60,6 +60,18 @@ cd Aut_Sci_Write
 pip install -r requirements.txt
 ```
 
+**OR**（Download/Clone to local and use the npm command）：
+
+```bash
+git clone https://github.com/ShZhao27208/Aut_Sci_Write.git
+cd Aut_Sci_Write
+npx skills add .
+```
+
+![examles](./examples/examples.png)
+
+
+
 ### ⚙️ Configuration
 
 Set environment variables as needed:
@@ -179,6 +191,18 @@ git clone https://github.com/ShZhao27208/Aut_Sci_Write.git
 cd Aut_Sci_Write
 pip install -r requirements.txt
 ```
+
+**或者**（下载/克隆到本地使用npm命令）：
+
+```bash
+git clone https://github.com/ShZhao27208/Aut_Sci_Write.git
+cd Aut_Sci_Write
+npx skills add
+```
+
+### ![examles](./examples/examples.png)
+
+
 
 ### ⚙️ 环境变量配置
 

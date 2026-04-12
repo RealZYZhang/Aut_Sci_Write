@@ -1,0 +1,18 @@
+# Test outputs and examples
+skills/sci-figure/output/
+skills/sci-figure/tests/
+examples/
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+
+# Git
+.git/
+.gitignore
+
+# Dev files
+*.log
+.claude-plugin/
+scripts/

@@ -19,7 +19,7 @@ triggers:
   - paper to ppt
 ---
 
-# Aut_Sci_PPt (Academic Auto-PPT Agent)
+# Sci-PPT —  Academic Auto-PPT Agent
 
 A specialized tool for generating professional academic presentations directly from paper content or structured outlines.
 

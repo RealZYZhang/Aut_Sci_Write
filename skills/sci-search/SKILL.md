@@ -21,7 +21,7 @@ triggers:
   - impact factor
 ---
 
-# Sci Search Skill
+# Sci-Search — Sci Search Skill
 
 Academic paper search and metrics analysis tool for scientific research workflows.
 

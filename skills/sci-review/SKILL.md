@@ -18,7 +18,7 @@ triggers:
   - paper writing
 ---
 
-# Scientific Review & Rebuttal Skill
+# Sci-Review — Scientific Review & Rebuttal Skill
 
 This skill consolidates professional academic writing logic to help authors create high-impact literature reviews and effective responses to peer reviewers.
 

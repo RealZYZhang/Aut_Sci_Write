@@ -10,7 +10,7 @@ triggers:
   - sync zotero
 ---
 
-# sci-zotero - Zotero Library Integration
+# Sci-Zotero — Zotero Library Integration
 
 Interact with your Zotero library to sync references, add citations by DOI/ISBN/PMID, and manage PDFs.
 

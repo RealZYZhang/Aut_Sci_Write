@@ -18,7 +18,7 @@ triggers:
   - core findings
 ---
 
-# Scientific Extraction (sci-extract)
+# Sci-Extract — Scientific Extraction
 
 Professional extraction of core insights and figures from scientific PDF papers.
 

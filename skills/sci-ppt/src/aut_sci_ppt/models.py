@@ -1,4 +1,4 @@
-﻿"""
+"""
 PPT Agent 数据模型 - 完整版（含图表支持）
 """
 from dataclasses import dataclass, field

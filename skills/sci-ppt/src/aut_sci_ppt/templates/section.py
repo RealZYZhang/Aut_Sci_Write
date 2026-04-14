@@ -1,4 +1,4 @@
-﻿"""
+"""
 章节页 - 无导航栏版：全页宽视觉冲击设计
 """
 from .base import BaseTemplate, hex_to_rgb

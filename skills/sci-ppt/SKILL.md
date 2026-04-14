@@ -23,7 +23,7 @@ triggers:
 
 A specialized tool for generating professional academic presentations directly from paper content or structured outlines.
 
-## Core Behavioral Rules (The 13 Laws)
+## Core Behavioral Rules (The 12 Laws)
 
 1. **Format**: Use `1. Title` for chapters and `- Point` for bullets.
 2. **Markdown**: 🚫 DO NOT use `##` for slide titles; it is not recognized by the parser.
@@ -54,8 +54,11 @@ create_ppt("""
 
 ### PDF to PPT (Academic Workflow)
 ```python
-from aut_sci_ppt import PaperWorkflow
+from aut_sci_ppt import auto_generate_ppt
 
-workflow = PaperWorkflow()
-workflow.process_pdf("paper.pdf", output_pptx="seminar.pptx")
+output = auto_generate_ppt("paper.pdf", author="张三", advisor="李教授")
 ```
+
+## Environment Variables
+- `MOONSHOT_API_KEY` (optional): Used for Chinese translation in PDF-to-PPT workflow. If not set, content is kept in original language.
+- Network access required for LaTeX formula rendering (via codecogs.com).

@@ -25,7 +25,7 @@ if sys.platform == 'win32':
 
 # Configuration
 _SCRIPT_DIR = Path(__file__).parent
-LIBRARY_PATH = _SCRIPT_DIR.parent / "library.json"
+LIBRARY_PATH = _SCRIPT_DIR / "library.json"
 
 # API rate-limit delay (seconds)
 RATE_LIMIT_DELAY = 1.0

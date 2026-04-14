@@ -120,8 +120,8 @@ class TestSmartPaginator(unittest.TestCase):
             self.assertEqual(section.data.part_num, str(i))
 
 
-class TestPPTagent    """测试 PPT Agent 主(unittest.TestCase):
-类"""
+class TestPPTAgent(unittest.TestCase):
+    """测试 PPT Agent 主类"""
     
     def setUp(self):
         self.agent = PPTAgent()

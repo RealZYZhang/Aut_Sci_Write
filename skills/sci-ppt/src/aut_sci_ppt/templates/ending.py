@@ -1,4 +1,4 @@
-﻿"""结尾页 - 整体优化版"""
+"""结尾页 - 整体优化版"""
 from .base import BaseTemplate, hex_to_rgb
 from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN

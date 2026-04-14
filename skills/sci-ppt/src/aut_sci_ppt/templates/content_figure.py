@@ -1,4 +1,4 @@
-﻿"""
+"""
 图文页 - 终版：溢出保护 + 填满 + 左右/上下自动布局
 """
 from .base import BaseTemplate, hex_to_rgb

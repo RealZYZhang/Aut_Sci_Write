@@ -1,4 +1,4 @@
-﻿"""
+"""
 详细内容页 - 终版溢出保护
 """
 from .base import BaseTemplate, hex_to_rgb

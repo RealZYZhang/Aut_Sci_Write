@@ -188,13 +188,14 @@ def check_dependencies() -> list:
         except ImportError:
             errors.append(f"Missing package: {pip_name} (pip install {pip_name})")
 
-    # Tesseract binary
+    # Tesseract binary (optional - graceful degradation if not found)
     if not check_tesseract():
-        errors.append(
-            "Tesseract OCR not found. "
+        logger.warning(
+            "Tesseract OCR not found (optional). Sub-figure label detection via OCR disabled. "
             "Install: winget install UB-Mannheim.TesseractOCR (Windows) "
             "or apt install tesseract-ocr (Linux)"
         )
+        # Note: NOT added to errors - subfigure splitting degrades gracefully
 
     return errors
 

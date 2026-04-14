@@ -31,15 +31,69 @@ CAPTION_PATTERNS = [
     re.compile(
         r"^(图\s*(\d+))\s*[\.:\s。]",
     ),
+    # Scheme patterns (chemistry papers)
+    re.compile(r"^(Scheme\.?\s*(\d+))\s*[\.:\s]", re.IGNORECASE),
+    re.compile(r"^(方案\s*(\d+))\s*[\.:\s。]"),
+    re.compile(r"^(示意图\s*(\d+))\s*[\.:\s。]"),
+    # Chart patterns
+    re.compile(r"^(Chart\.?\s*(\d+))\s*[\.:\s]", re.IGNORECASE),
+    # Supplementary figure patterns
+    re.compile(r"^(Supplementary\s+Fig(?:ure)?\.?\s*(\d+))\s*[\.:\s]", re.IGNORECASE),
+    re.compile(r"^(Supp\.?\s+Fig\.?\s*(\d+))\s*[\.:\s]", re.IGNORECASE),
+    re.compile(r"^(S\.?\s*Fig\.?\s*(\d+))\s*[\.:\s]", re.IGNORECASE),
+    re.compile(r"^(Supplementary\s+Scheme\.?\s*(\d+))\s*[\.:\s]", re.IGNORECASE),
+    re.compile(r"^(附图\s*(\d+))\s*[\.:\s。]"),
+    re.compile(r"^(补充图\s*(\d+))\s*[\.:\s。]"),
+    # Extended Data (Nature journals)
+    re.compile(r"^(Extended\s+Data\s+Fig(?:ure)?\.?\s*(\d+))\s*[\.:\s]", re.IGNORECASE),
 ]
 
-# Regex for detecting sub-figure labels in caption text
-# Matches: (a), (b), (c) or (a,b), (a-c), (a, b, c)
-SUBLABEL_PATTERN = re.compile(r"\(([a-z])\)")
+# Maps pattern index to figure type
+# (index corresponds to position in CAPTION_PATTERNS list)
+FIGURE_TYPE_BY_PATTERN = {
+    0: "figure",         # Fig.
+    1: "figure",         # Figure
+    2: "figure",         # FIGURE
+    3: "figure",         # 图
+    4: "scheme",         # Scheme
+    5: "scheme",         # 方案
+    6: "scheme",         # 示意图
+    7: "chart",          # Chart
+    8: "supplementary",  # Supplementary Figure
+    9: "supplementary",  # Supp. Fig.
+    10: "supplementary", # S. Fig.
+    11: "supplementary", # Supplementary Scheme
+    12: "supplementary", # 附图
+    13: "supplementary", # 补充图
+    14: "extended_data", # Extended Data Figure
+}
+
+# Multiple sublabel patterns (in priority order)
+SUBLABEL_PATTERNS = [
+    re.compile(r"\(([a-z])\)"),           # (a), (b), (c) — original
+    re.compile(r"\(([A-Z])\)"),           # (A), (B), (C) — uppercase
+    re.compile(r"(?<!\w)([a-z])\)"),      # a), b), c) — no left paren
+    re.compile(r"\((i{1,3}|iv|vi{0,3}|ix|xi{0,3})\)", re.IGNORECASE),  # (i), (ii), (iii)
+    re.compile(r"\((\d+)\)"),             # (1), (2), (3) — numeric
+    re.compile(r"(?<!\w)([a-z])\.(?=\s)", re.IGNORECASE),  # a. b. c. — dot format
+]
 
 # Minimum figure dimensions (in pixels) to consider valid
 MIN_FIGURE_WIDTH_PX = 50
 MIN_FIGURE_HEIGHT_PX = 50
+
+
+def _detect_sublabel_format(label: str, caption_text: str) -> str:
+    """Detect the format used for this sublabel in the caption."""
+    patterns_and_formats = [
+        (re.compile(rf"\({re.escape(label)}\)", re.IGNORECASE), f"({label})"),
+        (re.compile(rf"{re.escape(label)}\)"), f"{label})"),
+        (re.compile(rf"(?<!\w){re.escape(label)}\.(?=\s)", re.IGNORECASE), f"{label}."),
+    ]
+    for pattern, fmt in patterns_and_formats:
+        if pattern.search(caption_text):
+            return fmt
+    return f"({label})"  # default
 
 
 class FigureDetector:
@@ -61,7 +115,9 @@ class FigureDetector:
 
         Returns:
             list of dicts with keys:
-                number, page, bbox, caption, sublabels, image
+                number, page, bbox, bbox_pdf, caption, caption_full,
+                caption_bbox_pdf, sublabels, sublabel_details,
+                figure_type, is_supplementary, image
         """
         if self._figures is not None:
             return self._figures
@@ -152,6 +208,7 @@ class FigureDetector:
 
             # Detect sub-figure labels from caption text
             sublabels = self._extract_sublabels(cap["caption"])
+            figure_type = cap.get("figure_type", "figure")
 
             figures.append(
                 {
@@ -159,9 +216,19 @@ class FigureDetector:
                     "page": page_num,
                     "bbox": bbox_px,
                     "bbox_pdf": bbox_pdf,
-                    "caption": cap["caption"],
+                    "caption": cap["caption"][:200],
+                    "caption_full": cap["caption"],
                     "caption_bbox_pdf": (cap["x0"], cap["y0"], cap["x1"], cap["y1"]),
                     "sublabels": sublabels,
+                    "sublabel_details": [
+                        {
+                            "label": lbl,
+                            "format": _detect_sublabel_format(lbl, cap["caption"]),
+                        }
+                        for lbl in sublabels
+                    ],
+                    "figure_type": figure_type,
+                    "is_supplementary": figure_type in ("supplementary", "extended_data"),
                     "image": fig_image,
                 }
             )
@@ -247,6 +314,7 @@ class FigureDetector:
                     "number": int,
                     "page": int,
                     "caption": str,        # full caption text
+                    "figure_type": str,    # figure type from FIGURE_TYPE_BY_PATTERN
                     "x0": float, "y0": float, "x1": float, "y1": float,
                 },
             ]
@@ -268,7 +336,7 @@ class FigureDetector:
                 if not text:
                     continue
 
-                fig_num = self._match_caption(text)
+                fig_num, pattern_idx = self._match_caption(text)
                 if fig_num is not None:
                     key = (page_num, fig_num)
                     if key in seen_figures:
@@ -277,11 +345,13 @@ class FigureDetector:
                         continue
 
                     seen_figures.add(key)
+                    figure_type = FIGURE_TYPE_BY_PATTERN.get(pattern_idx, "figure")
                     captions.append(
                         {
                             "number": fig_num,
                             "page": page_num,
                             "caption": text,
+                            "figure_type": figure_type,
                             "x0": line["x0"],
                             "y0": line["y0"],
                             "x1": line["x1"],
@@ -295,18 +365,18 @@ class FigureDetector:
                 import fitz
                 page = self.pdf_parser._fitz_doc[page_num]
                 full_text = page.get_text()
-                
+
                 # Look for figure numbers in the full text
                 for match in re.finditer(r'\b(Fig\.?\s*(\d+))\b', full_text, re.IGNORECASE):
                     fig_num = int(match.group(2))
                     key = (page_num, fig_num)
-                    
+
                     if key not in seen_figures:
                         # Extract context around the match (up to 200 chars)
                         start = max(0, match.start() - 10)
                         end = min(len(full_text), match.end() + 150)
                         caption_text = full_text[start:end].strip()
-                        
+
                         if len(caption_text) >= 6:
                             seen_figures.add(key)
                             # Use approximate coordinates (page center)
@@ -316,6 +386,7 @@ class FigureDetector:
                                     "number": fig_num,
                                     "page": page_num,
                                     "caption": caption_text,
+                                    "figure_type": "figure",
                                     "x0": 30.0,
                                     "y0": page_h * 0.5,
                                     "x1": page_w - 30.0,
@@ -338,21 +409,19 @@ class FigureDetector:
         result = sorted(unique_captions.values(), key=lambda c: c["number"])
         return result
 
-    def _match_caption(self, text: str) -> int:
+    def _match_caption(self, text: str):
         """
         Check if a line of text is a figure caption.
 
         Returns:
-            figure number (int) if matched, None otherwise.
+            (figure_num: int, pattern_idx: int) if matched, (None, None) otherwise.
         """
-        # Strip leading/trailing whitespace for matching
         text_stripped = text.strip()
-        
-        for pattern in CAPTION_PATTERNS:
+        for idx, pattern in enumerate(CAPTION_PATTERNS):
             m = pattern.match(text_stripped)
             if m:
-                return int(m.group(2))
-        return None
+                return int(m.group(2)), idx
+        return None, None
 
     def _compute_figure_bbox(
         self, caption: dict, all_lines: list, page_num: int, page_captions: list
@@ -453,7 +522,8 @@ class FigureDetector:
                 return line["y1"] + 3.0  # figure starts just below this text
 
             # If we hit another figure caption, stop
-            if self._match_caption(line["text"]) is not None:
+            fig_num, _ = self._match_caption(line["text"])
+            if fig_num is not None:
                 return line["y1"] + 3.0
 
             previous_bottom = line["y0"]
@@ -468,14 +538,15 @@ class FigureDetector:
 
     def _extract_sublabels(self, caption_text: str) -> list:
         """
-        Extract sub-figure labels mentioned in the caption text.
-
-        Looks for patterns like (a), (b), (c) in the caption.
-
-        Returns:
-            sorted list of unique labels, e.g., ["a", "b", "c"]
+        Extract sub-figure labels from caption text.
+        Supports: (a), (A), a), (i), (1), a.
+        Returns sorted list of unique lowercase labels.
         """
-        matches = SUBLABEL_PATTERN.findall(caption_text)
+        all_matches = []
+        for pattern in SUBLABEL_PATTERNS:
+            matches = pattern.findall(caption_text)
+            all_matches.extend(m.lower() for m in matches)
+
         # Deduplicate and sort
-        unique = sorted(set(matches))
+        unique = sorted(set(all_matches))
         return unique

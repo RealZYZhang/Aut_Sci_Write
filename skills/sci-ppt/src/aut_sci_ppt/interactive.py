@@ -1,4 +1,4 @@
-﻿"""
+"""
 交互节点控制器 - 在关键节点暂停并询问用户确认
 """
 from typing import Dict, List, Any

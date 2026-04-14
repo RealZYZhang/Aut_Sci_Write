@@ -1,6 +1,6 @@
 ---
 name: Sh_Sci_Fig
-description: Extracts figures and sub-figures from academic PDF papers. Supports automatic figure detection, sub-figure label recognition (a/b/c/d), and high-quality PNG output at configurable DPI. Use when user asks to "extract figure", "截取文献图片", "提取子图", or "get figure from paper".
+description: Extracts figures and sub-figures from academic PDF papers. Supports Fig/Figure, Scheme, Chart, Supplementary Figure, Extended Data Figure (Nature), and Chinese equivalents (图/方案/示意图/附图/补充图). Sub-figure label recognition supports (a)/(A)/a)/(i)/(1)/a. formats. High-quality PNG output at configurable DPI. Use when user asks to "extract figure", "截取文献图片", "提取子图", "get figure from paper", "Scheme", "方案图", "补充图", "Supplementary Figure", or "Extended Data".
 ---
 
 # Sh_Sci_Fig — Scientific Figure Extractor
@@ -90,6 +90,23 @@ Extracted: figure_2c.png (1920x1080, 600 DPI)
 | opencv-python | Boundary detection, contour analysis |
 | Pillow | Final cropping, format conversion |
 | pytesseract | OCR for sub-figure label recognition |
+
+## Detected Figure Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `number` | int | Figure number |
+| `page` | int | Page index (0-based) |
+| `bbox` | tuple | Crop region in pixels |
+| `bbox_pdf` | tuple | Crop region in PDF points |
+| `caption` | str | Caption text (truncated to 200 chars) |
+| `caption_full` | str | Full caption text (no truncation) |
+| `caption_bbox_pdf` | tuple | Caption bounding box in PDF points |
+| `sublabels` | list[str] | Sub-figure labels, e.g. `["a","b","c"]` |
+| `sublabel_details` | list[dict] | Labels with detected format, e.g. `{"label":"a","format":"(a)"}` |
+| `figure_type` | str | One of: `figure`, `scheme`, `chart`, `supplementary`, `extended_data` |
+| `is_supplementary` | bool | True for `supplementary` and `extended_data` types |
+| `image` | ndarray | Cropped figure image (numpy array) |
 
 ## Extension Support
 

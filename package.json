@@ -1,6 +1,6 @@
 {
   "name": "shuozhao-academic-skills",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Academic research enhancement skills for Claude Code: PPT generation, data extraction, literature search, figure processing, and Zotero integration",
   "main": "index.js",
   "type": "module",
@@ -29,5 +29,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "skills-cli": "./skills-cli.js"
   }
 }

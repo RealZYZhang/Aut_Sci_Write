@@ -1,4 +1,4 @@
-﻿"""
+"""
 PPT Agent 配置管理模块 - 基于参考 PPT 提取的真实风格
 """
 import logging

@@ -57,15 +57,15 @@ The **WoS Starter API** is free to apply for and provides access to the Web of S
 
 ## Usage
 
-Main script: `../../scripts/sci_search.py`
+Main script: `./sci_search.py`
 
 ```bash
 # Search all sources (arXiv + PubMed + WoS if key set)
-python scripts/sci_search.py "perovskite solar cells" --limit 5
+python skills/sci-search/sci_search.py "perovskite solar cells" --limit 5
 
 # Search Web of Science only
-python scripts/sci_search.py "solid state electrolyte" --source wos --limit 10
+python skills/sci-search/sci_search.py "solid state electrolyte" --source wos --limit 10
 
 # Export results to markdown
-python scripts/sci_search.py "graphene battery" --output results.md
+python skills/sci-search/sci_search.py "graphene battery" --output results.md
 ```

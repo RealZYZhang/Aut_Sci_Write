@@ -134,7 +134,8 @@ Aut_Sci_Write/
 │   ├── sci-search/           # Paper search with journal metrics
 │   └── sci-zotero/           # Zotero library integration
 ├── scripts/
-│   ├── sci_search.py         # Search core logic
+│   ├── sci-search/
+│   │   └── sci_search.py     # Search core logic
 │   ├── extract_core_insights.py
 │   ├── zotero.py
 │   └── journal_db.json       # Journal metrics database (independently updatable)
@@ -274,7 +275,8 @@ Aut_Sci_Write/
 │   ├── sci-search/           # 文献检索与期刊指标
 │   └── sci-zotero/           # Zotero 文献库集成
 ├── scripts/
-│   ├── sci_search.py         # 检索核心逻辑
+│   ├── sci-search/
+│   │   └── sci_search.py     # 检索核心逻辑
 │   ├── extract_core_insights.py
 │   ├── zotero.py
 │   └── journal_db.json       # 期刊指标数据库（可独立更新）

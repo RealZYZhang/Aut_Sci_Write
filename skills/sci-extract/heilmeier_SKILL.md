@@ -1,10 +1,10 @@
-<!-- Copyright (c) 2026 Zhiyao Zhang -->
-<!-- SPDX-License-Identifier: MIT -->
 ---
 name: paper-reader-heilmeier
 description: Read a research paper end to end and produce a single Heilmeier-style analysis that doubles as both summary and critique. Use this skill whenever the user shares a research paper (PDF upload, arXiv link, arXiv ID, DOI, or pasted paper text) and asks anything that resembles "read this", "summarize this paper", "what does this paper do", "analyze this paper", "give me a Heilmeier analysis", "review this paper", or simply drops a paper into the chat with little explanation. Trigger this skill even when the user does not explicitly say "Heilmeier" — any request to digest, summarize, review, or critically assess an academic paper should activate it. Do NOT use this skill for non-academic articles, blog posts, or news.
 ---
 
+<!-- Copyright (c) 2026 Zhiyao Zhang -->
+<!-- SPDX-License-Identifier: MIT -->
 
 # Paper Reader + Heilmeier's Catechism
 
